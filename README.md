@@ -46,7 +46,8 @@
 
 |  ![7](https://github.com/lenskii/ASCON_TestApp/blob/master/docs/7.jpg)  | ![8](https://github.com/lenskii/ASCON_TestApp/blob/master/docs/8.jpg)  |
 | ------------- | ------------- |
-|  ![9](https://github.com/lenskii/ASCON_TestApp/blob/master/docs/9.jpg)  |  |
+|  ![9](https://github.com/lenskii/ASCON_TestApp/blob/master/docs/9.jpg)  | ![15](https://github.com/lenskii/ASCON_TestApp/blob/master/docs/15.jpg) |
+
 
 * Добавление новых компонентов верхнего уровня с обработкой исключений:
 
@@ -54,8 +55,9 @@
 
 * Переименование компонентов
 
- ![10](https://github.com/lenskii/ASCON_TestApp/blob/master/docs/10.jpg) 
-     
+ | ![10](https://github.com/lenskii/ASCON_TestApp/blob/master/docs/10.jpg) | ![16](https://github.com/lenskii/ASCON_TestApp/blob/master/docs/16.jpg) |
+ | ------------- | ------------- |
+ 
 * Удаление компонентов
 
 | ![11](https://github.com/lenskii/ASCON_TestApp/blob/master/docs/11.jpg) |  ![14](https://github.com/lenskii/ASCON_TestApp/blob/master/docs/14.jpg) |
