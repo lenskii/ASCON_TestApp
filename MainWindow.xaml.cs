@@ -146,7 +146,7 @@ namespace ASCON_TestApp
             long currentUniqueComponentsMaxID = componentsUniqueQuery.AsQueryable().Cast<ComponentsUnique>().Max(t => t.Id);
 
             // Объект из диалога существует (нажата кнопка ОК)
-            if (dialog_NewComponent.newComponent != null)
+            if (dialog_NewComponent.newComponent != null && dialog_NewComponent.newComponent.Name != null)
             {
                 // Уникальный компонент еще не существует
                 if (dialog_NewComponent.newComponent.Id > currentUniqueComponentsMaxID)
