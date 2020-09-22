@@ -65,7 +65,7 @@
 
  ![12](https://github.com/lenskii/ASCON_TestApp/blob/master/docs/12.jpg) 
 
-Последний доступный релиз можно загрузить по соответствующей [ссылке](https://github.com/lenskii/ASCON_TestApp/releases/tag/1.0).
+Последний доступный релиз можно загрузить по соответствующей [ссылке](https://github.com/lenskii/ASCON_TestApp/releases/).
 
 ---
 
