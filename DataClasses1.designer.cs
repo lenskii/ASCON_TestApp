@@ -30,12 +30,12 @@ namespace ASCON_TestApp
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
-    partial void InsertComponentsList(ComponentsList instance);
-    partial void UpdateComponentsList(ComponentsList instance);
-    partial void DeleteComponentsList(ComponentsList instance);
-    partial void InsertComponent(Components instance);
-    partial void UpdateComponent(Components instance);
-    partial void DeleteComponent(Components instance);
+    partial void InsertComponentsUnique(ComponentsUnique instance);
+    partial void UpdateComponentsUnique(ComponentsUnique instance);
+    partial void DeleteComponentsUnique(ComponentsUnique instance);
+    partial void InsertComponentsAll(ComponentsAll instance);
+    partial void UpdateComponentsAll(ComponentsAll instance);
+    partial void DeleteComponentsAll(ComponentsAll instance);
     #endregion
 		
 		public DataClasses1DataContext() : 
@@ -68,25 +68,25 @@ namespace ASCON_TestApp
 			OnCreated();
 		}
 		
-		public System.Data.Linq.Table<ComponentsList> ComponentsLists
+		public System.Data.Linq.Table<ComponentsUnique> ComponentsUniques
 		{
 			get
 			{
-				return this.GetTable<ComponentsList>();
+				return this.GetTable<ComponentsUnique>();
 			}
 		}
 		
-		public System.Data.Linq.Table<Components> Components
+		public System.Data.Linq.Table<ComponentsAll> ComponentsAlls
 		{
 			get
 			{
-				return this.GetTable<Components>();
+				return this.GetTable<ComponentsAll>();
 			}
 		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.ComponentsList")]
-	public partial class ComponentsList : INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class ComponentsUnique : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -105,7 +105,7 @@ namespace ASCON_TestApp
     partial void OnNameChanged();
     #endregion
 		
-		public ComponentsList()
+		public ComponentsUnique()
 		{
 			OnCreated();
 		}
@@ -172,7 +172,7 @@ namespace ASCON_TestApp
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Components")]
-	public partial class Components : INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class ComponentsAll : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -203,7 +203,7 @@ namespace ASCON_TestApp
     partial void OnAmountChanged();
     #endregion
 		
-		public Components()
+		public ComponentsAll()
 		{
 			OnCreated();
 		}

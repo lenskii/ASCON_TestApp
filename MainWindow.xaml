@@ -5,9 +5,87 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ASCON_TestApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="600">
+        Title="База компонентов"
+        Height="450" Width="600"
+        BorderBrush="Black"
+        ResizeMode="CanMinimize"
+        WindowStartupLocation="CenterScreen">
     <Grid>
-        <TreeView Name ="treeView" HorizontalAlignment="Stretch" Margin="10,10,10,10" VerticalAlignment="Stretch"  BorderBrush="{x:Null}" TreeViewItem.Expanded="treeView_Expanded"/>
+        <TreeView Name ="treeView"
+                  HorizontalAlignment="Stretch"
+                  Margin="10,40,10,10"
+                  VerticalAlignment="Stretch"
+                  BorderBrush="{x:Null}"
+                  TreeViewItem.Expanded="treeView_Expanded"
+                  TreeViewItem.MouseRightButtonUp="TreeViewItem_MouseRightButtonUp">
 
+            <TreeView.Resources>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+                            <ContextMenu>
+
+                                <MenuItem Header="Новый вложенный компонент">
+                                    <MenuItem.Style>
+                                        <Style TargetType="MenuItem">
+                                            <EventSetter Event="Click" Handler="NewInsideComponent" />
+                                        </Style>
+                                    </MenuItem.Style>
+                                </MenuItem>
+
+                                <MenuItem  Header="Переименовать">
+                                    <MenuItem.Style>
+                                        <Style TargetType="MenuItem">
+                                            <EventSetter Event="Click" Handler="RenameComponent" />
+                                        </Style>
+                                    </MenuItem.Style>
+                                </MenuItem>
+
+                                <MenuItem  Header="Удалить">
+                                    <MenuItem.Style>
+                                        <Style TargetType="MenuItem">
+                                            <EventSetter Event="Click" Handler="DeleteComponent" />
+                                        </Style>
+                                    </MenuItem.Style>
+                                </MenuItem>
+
+                                <Separator />
+
+                                <MenuItem  Header="Отчет о сводном составе">
+                                    <MenuItem.Style>
+                                        <Style TargetType="MenuItem">
+                                            <EventSetter Event="Click" Handler="ReportComponent" />
+                                        </Style>
+                                    </MenuItem.Style>
+                                </MenuItem>
+                            </ContextMenu>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TreeView.Resources>
+
+            <TreeView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem  Header="Новый компонент верхнего уровня">
+                        <MenuItem.Style>
+                            <Style TargetType="MenuItem">
+                                <EventSetter Event="Click" Handler="NewRootComponent" />
+                            </Style>
+                        </MenuItem.Style>
+                    </MenuItem>
+
+                    <Separator />
+
+                    <MenuItem  Header="Отчет о сводном составе">
+                        <MenuItem.Style>
+                            <Style TargetType="MenuItem">
+                                <EventSetter Event="Click" Handler="ReportComponent" />
+                            </Style>
+                        </MenuItem.Style>
+                    </MenuItem>
+                </ContextMenu>
+            </TreeView.ContextMenu>
+        </TreeView>
+        <Button Content="Раскрыть" HorizontalAlignment="Left" Margin="20,10,0,0" VerticalAlignment="Top" Width="90" Click="Button_ExpandAll_Click" />
     </Grid>
 </Window>

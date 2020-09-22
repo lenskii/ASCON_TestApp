@@ -1,0 +1,30 @@
+﻿<Window x:Class="ASCON_TestApp.Dialog_NewComponent"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ASCON_TestApp"
+        mc:Ignorable="d"
+        Title="Добавление нового компонента" Height="300" Width="300"
+        ShowInTaskbar="False"
+        BorderBrush="Black"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <StackPanel Orientation="Vertical" Margin="10,20,10,10">
+
+            <TextBlock HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Top" Width="274" Margin="5">
+                <Run NumberSubstitution.CultureSource="Text" Text="Выберите доступный компонент из списка " /><LineBreak />
+                <Run NumberSubstitution.CultureSource="Text" Text="или введите наименование нового:" />
+            </TextBlock>
+
+            <ComboBox Name ="comboBox" HorizontalAlignment="Center"  VerticalAlignment="Top" Width="200" Margin="5"
+                      SelectionChanged="ComboBox_SelectionChanged" />
+            <TextBox Name = "textBox" HorizontalAlignment="Center" VerticalAlignment="Top" Height="22"  TextWrapping="Wrap" Text="" Margin="5" Width="200" />
+            <Label Content="Количество компонентов:" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="5" />
+            <TextBox Name ="amountTextBox" HorizontalAlignment="Center" Height="22"  TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="200"  Margin="5" />
+        </StackPanel>
+
+        <Button Content="OK" HorizontalAlignment="Center" Margin="0,0,0,10" VerticalAlignment="Bottom" Width="76" Click="Button_OK_Click" />
+    </Grid>
+</Window>
