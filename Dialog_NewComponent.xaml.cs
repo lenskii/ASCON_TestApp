@@ -109,7 +109,7 @@ namespace ASCON_TestApp
             }
 
             // Если новый компонент существует 
-            if (newComponent != null)
+            if (newComponent.Id != null)
             {
                 // Парсим количество новых компонентов
                 try
