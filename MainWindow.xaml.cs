@@ -134,6 +134,11 @@ namespace ASCON_TestApp
             parensIDListUnique.Add(currentComponent.ComponentId);
             parensIDListUnique = GetComponentsParentsIds(currentComponent, ref parensIDListUnique, true);
 
+            // Лист Id родительских компонентов данного компонента
+            List<long> parensIDListAll = new List<long>();
+            parensIDListAll.Add(currentComponent.Id);
+            parensIDListAll = GetComponentsParentsIds(currentComponent, ref parensIDListAll, false).OrderBy(u => u).ToList();
+
             // Создание диалога с добавлением нового компонента
             // Индекс компонента должен быть больше, чем все предыдущие, во избежание перезаписи таблицы
             // Id нового компонента будет задано автоматически при db.ComponentsUniques.InsertOnSubmit(...)
@@ -209,34 +214,41 @@ namespace ASCON_TestApp
                     // Добавление существующего уникального компонента в текущую ветку
                     else
                     {
-                        ComponentsAll newComponentAll = new ComponentsAll()
+                        List<string> parentNames = GetComponentsParentsNames(parensIDListAll);
+
+                        if (parentNames.Contains(dialog_NewComponent.newComponent.Name))
                         {
-                            Id = currentAllComponentsMaxID + 1,
-                            ParentId = (long)selectedItem.Tag,
-                            ComponentId = dialog_NewComponent.newComponent.Id,
-                            Name = "",
-                            Amount = dialog_NewComponent.newComponentAmount
-                        };
+                            // Вывод предуреждения о переименовании
+                            string messageBoxText = "Компонент \"" + dialog_NewComponent.newComponent.Name + " \" уже присутствует в данной ветке.\nДобавление невозможно.";
+                            string caption = "Добавление компонента невозможно";
+                            MessageBoxResult result = MessageBox.Show(messageBoxText, caption, MessageBoxButton.OK, MessageBoxImage.Question);
+                        }
+                        else
+                        {
+                            ComponentsAll newComponentAll = new ComponentsAll()
+                            {
+                                Id = currentAllComponentsMaxID + 1,
+                                ParentId = (long)selectedItem.Tag,
+                                ComponentId = dialog_NewComponent.newComponent.Id,
+                                Name = "",
+                                Amount = dialog_NewComponent.newComponentAmount
+                            };
 
-                        // Сохранение изменений в БД
-                        db.ComponentsAlls.InsertOnSubmit(newComponentAll);
-                        db.SubmitChanges();
+                            // Сохранение изменений в БД
+                            db.ComponentsAlls.InsertOnSubmit(newComponentAll);
+                            db.SubmitChanges();
 
-                        // Создание нового элемента TreeViewItem по текущему компоненту
-                        TreeViewItem newitem = CreateNewItemFromComponent(newComponentAll);
+                            // Создание нового элемента TreeViewItem по текущему компоненту
+                            TreeViewItem newitem = CreateNewItemFromComponent(newComponentAll);
 
-                        // Добавление нового элемента TreeViewItem в treeView под выбранным узлом selectedItem
-                        selectedItem.Items.Add(newitem);
+                            // Добавление нового элемента TreeViewItem в treeView под выбранным узлом selectedItem
+                            selectedItem.Items.Add(newitem);
+                        }
                     }
                 }
 
                 // Сохранение изменений в БД. Мало ли.
                 db.SubmitChanges();
-
-                // Лист Id родительских компонентов данного компонента
-                List<long> parensIDListAll = new List<long>();
-                parensIDListAll.Add(currentComponent.Id);
-                parensIDListAll = GetComponentsParentsIds(currentComponent, ref parensIDListAll, false).OrderBy(u => u).ToList();
 
                 // Сворачивание TreeView
                 TreeViewCollapseAll();
@@ -595,6 +607,29 @@ namespace ASCON_TestApp
             }
 
             return parentIdList;
+        }
+
+        // Получение всех id родительских элементов данного компонента из таблицы всех/уникальных компонентов
+        private List<string> GetComponentsParentsNames(List<long> parentIdList)
+        {
+            List<string> parentNames = new List<string>();
+
+            foreach (long id in parentIdList)
+            {
+                // Получение родительского компонента по component.ParentId, т.к. родитель может быть только один, вызываем .First()
+                ComponentsAll parentComponent = componentsAllQuery.AsQueryable().Cast<ComponentsAll>().Where(x => x.Id == id).First();
+
+                // Компонент - дочерний
+                if (parentComponent.ParentId > 0)
+                {
+                    parentNames.Add(GetComponentUniquebyAllID(id).Name);
+                }
+                else
+                {
+                    parentNames.Add(parentComponent.Name);
+                }
+            }
+            return parentNames;
         }
 
         // Получение компонента из таблицы всех компонентов по его ID из таблицы всех компонентов
