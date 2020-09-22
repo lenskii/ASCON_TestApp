@@ -45,94 +45,104 @@ namespace ASCON_TestApp
             // Если поле ввода не пустое
             else
             {
-                // Создание компонента верхнего уровня
-                if (isNewRootComponent == true)
+                if (textBox.Text.Length > 50)
                 {
-                    // Проверка имени на существующий компонент
-                    bool alreadyInComponents = componentsAllQuery.AsQueryable().Cast<ComponentsAll>()
-                                                                    .Select(x => x.Name).Any(u => u == textBox.Text);
-
-                    // Такой компонент уже существует
-                    if (alreadyInComponents == true)
-                    {
-                        // Вывод сообщения об ошибке
-                        string messageBoxText = "Компонент с таким именем уже существует.\nВведите другое имя компонента.";
-                        string caption = "Компонент с таким именем уже существует";
-                        MessageBoxResult result = MessageBox.Show(messageBoxText, caption, MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                    // Такой компонент еще не существует
-                    else
-                    {
-                        // Присвоение имени нового компонента из textBox
-                        componentNewName = textBox.Text;
-
-                        // Вывод предуреждения о переименовании
-                        string messageBoxText = "Создать новый компонент с именем \"" + componentNewName + "\"? ";
-                        string caption = "Сохранение изменений";
-                        MessageBoxResult result = MessageBox.Show(messageBoxText, caption, MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
-
-                        if (result == MessageBoxResult.Yes)
-                        {
-                            Close();
-                        }
-                        if (result == MessageBoxResult.No)
-                        {
-                            componentNewName = null;
-                            Close();
-                        }
-                        if (result == MessageBoxResult.Cancel)
-                        {
-                        }
-                    }
+                    string messageBoxText = "Имя компонента слишком длинное.\nМаксимальная длина имени компонента - 50 символов";
+                    string caption = "Имя компонента слишком длинное";
+                    MessageBox.Show(messageBoxText, caption, MessageBoxButton.OK, MessageBoxImage.Error);
+                    textBox.Text = "";
                 }
-                // Создание вложенного компонента
                 else
                 {
-                    // Проверка имени на существующий компонент
-                    bool alreadyInComponents = componentsUniqueQuery.AsQueryable().Cast<ComponentsUnique>()
-                                                                    .Select(x => x.Name).Any(u => u == textBox.Text);
-
-                    // Такой компонент уже существует
-                    if (alreadyInComponents == true)
+                    // Создание компонента верхнего уровня
+                    if (isNewRootComponent == true)
                     {
-                        // Вывод сообщения об ошибке
-                        string messageBoxText = "Компонент с таким именем уже существует.\nВведите другое имя компонента.";
-                        string caption = "Компонент с таким именем уже существует";
-                        MessageBoxResult result = MessageBox.Show(messageBoxText, caption, MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
-                    // Такой компонент еще не существует
-                    else
-                    {
-                        componentNewName = textBox.Text;
+                        // Проверка имени на существующий компонент
+                        bool alreadyInComponents = componentsAllQuery.AsQueryable().Cast<ComponentsAll>()
+                                                                        .Select(x => x.Name).Any(u => u == textBox.Text);
 
-                        // Вложенный компонент
-                        if (currentComponent.ParentId != 0)
+                        // Такой компонент уже существует
+                        if (alreadyInComponents == true)
                         {
-                            componentOldName = componentsUniqueQuery.AsQueryable().Cast<ComponentsUnique>()
-                                                                      .Where(x => x.Id == currentComponent.ComponentId).First().Name;
+                            // Вывод сообщения об ошибке
+                            string messageBoxText = "Компонент с таким именем уже существует.\nВведите другое имя компонента.";
+                            string caption = "Компонент с таким именем уже существует";
+                            MessageBoxResult result = MessageBox.Show(messageBoxText, caption, MessageBoxButton.OK, MessageBoxImage.Error);
                         }
-                        // Корневой компонент
+                        // Такой компонент еще не существует
                         else
                         {
-                            componentOldName = currentComponent.Name;
-                        }
+                            // Присвоение имени нового компонента из textBox
+                            componentNewName = textBox.Text;
 
-                        // Вывод предуреждения о переименовании
-                        string messageBoxText = "Переименовать компонент \"" + componentOldName + " \" в  \"" + componentNewName + " \"? ";
-                        string caption = "Сохранение изменений";
-                        MessageBoxResult result = MessageBox.Show(messageBoxText, caption, MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+                            // Вывод предуреждения о переименовании
+                            string messageBoxText = "Создать новый компонент с именем \"" + componentNewName + "\"? ";
+                            string caption = "Сохранение изменений";
+                            MessageBoxResult result = MessageBox.Show(messageBoxText, caption, MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
 
-                        if (result == MessageBoxResult.Yes)
-                        {
-                            Close();
+                            if (result == MessageBoxResult.Yes)
+                            {
+                                Close();
+                            }
+                            if (result == MessageBoxResult.No)
+                            {
+                                componentNewName = null;
+                                Close();
+                            }
+                            if (result == MessageBoxResult.Cancel)
+                            {
+                            }
                         }
-                        if (result == MessageBoxResult.No)
+                    }
+                    // Создание вложенного компонента
+                    else
+                    {
+                        // Проверка имени на существующий компонент
+                        bool alreadyInComponents = componentsUniqueQuery.AsQueryable().Cast<ComponentsUnique>()
+                                                                        .Select(x => x.Name).Any(u => u == textBox.Text);
+
+                        // Такой компонент уже существует
+                        if (alreadyInComponents == true)
                         {
-                            componentNewName = null;
-                            Close();
+                            // Вывод сообщения об ошибке
+                            string messageBoxText = "Компонент с таким именем уже существует.\nВведите другое имя компонента.";
+                            string caption = "Компонент с таким именем уже существует";
+                            MessageBoxResult result = MessageBox.Show(messageBoxText, caption, MessageBoxButton.OK, MessageBoxImage.Error);
                         }
-                        if (result == MessageBoxResult.Cancel)
+                        // Такой компонент еще не существует
+                        else
                         {
+                            componentNewName = textBox.Text;
+
+                            // Вложенный компонент
+                            if (currentComponent.ParentId != 0)
+                            {
+                                componentOldName = componentsUniqueQuery.AsQueryable().Cast<ComponentsUnique>()
+                                                                          .Where(x => x.Id == currentComponent.ComponentId).First().Name;
+                            }
+                            // Корневой компонент
+                            else
+                            {
+                                componentOldName = currentComponent.Name;
+                            }
+
+                            // Вывод предуреждения о переименовании
+                            string messageBoxText = "Переименовать компонент \"" + componentOldName + " \" в  \"" + componentNewName + " \"? ";
+                            string caption = "Сохранение изменений";
+                            MessageBoxResult result = MessageBox.Show(messageBoxText, caption, MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+
+                            if (result == MessageBoxResult.Yes)
+                            {
+                                Close();
+                            }
+                            if (result == MessageBoxResult.No)
+                            {
+                                componentNewName = null;
+                                Close();
+                            }
+                            if (result == MessageBoxResult.Cancel)
+                            {
+                            }
                         }
                     }
                 }

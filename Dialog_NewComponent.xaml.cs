@@ -69,35 +69,47 @@ namespace ASCON_TestApp
                 // Если поле ввода не пустое
                 else
                 {
-                    // Проверка имени на существующий компонент
-                    bool alreadyInList = componentsUniqueQuery.AsQueryable().Cast<ComponentsUnique>().Select(x => x.Name).Any(u => u == textBox.Text);
-                    if (alreadyInList)
+                    if (textBox.Text.Length > 50)
                     {
-                        // Вывод предуреждения
-                        string messageBoxText = "Компонент \"" + textBox.Text + "\" уже присутствует в базе данных. Использовать его?";
-                        string caption = "Данный компонент уже присутствует в базе данных";
-                        MessageBoxResult result = MessageBox.Show(messageBoxText, caption, MessageBoxButton.OKCancel, MessageBoxImage.Question);
-
-                        // Создание компонента из списка существующих по введенному имени
-                        if (result == MessageBoxResult.OK)
-                        {
-                            newComponent = componentsUniqueQuery.AsQueryable().Cast<ComponentsUnique>()
-                                                   .Where(x => x.Name == textBox.Text).First();
-                        }
-                        if (result == MessageBoxResult.Cancel)
-                        {
-                        }
+                        string messageBoxText = "Имя компонента слишком длинное.\nМаксимальная длина имени компонента - 50 символов";
+                        string caption = "Имя компонента слишком длинное";
+                        MessageBox.Show(messageBoxText, caption, MessageBoxButton.OK, MessageBoxImage.Error);
+                        textBox.Text = "";
                     }
-                    // Такой компонент еще не существует
                     else
                     {
-                        // Индекс компонента должен быть больше, чем все предыдущие, во избежание перезаписи таблицы
-                        long currentMaxID = componentsUniqueQuery.AsQueryable().Cast<ComponentsUnique>().Max(t => t.Id);
-                        newComponent.Id = currentMaxID + 1;
+                        // Проверка имени на существующий компонент
+                        bool alreadyInList = componentsUniqueQuery.AsQueryable().Cast<ComponentsUnique>().Select(x => x.Name).Any(u => u == textBox.Text);
+                        if (alreadyInList)
+                        {
+                            // Вывод предуреждения
+                            string messageBoxText = "Компонент \"" + textBox.Text + "\" уже присутствует в базе данных. Использовать его?";
+                            string caption = "Данный компонент уже присутствует в базе данных";
+                            MessageBoxResult result = MessageBox.Show(messageBoxText, caption, MessageBoxButton.OKCancel, MessageBoxImage.Question);
 
-                        // Присвоение имени нового компонента из textBox
-                        newComponent.Name = textBox.Text;
+                            // Создание компонента из списка существующих по введенному имени
+                            if (result == MessageBoxResult.OK)
+                            {
+                                newComponent = componentsUniqueQuery.AsQueryable().Cast<ComponentsUnique>()
+                                                       .Where(x => x.Name == textBox.Text).First();
+                            }
+                            if (result == MessageBoxResult.Cancel)
+                            {
+                            }
+                        }
+                        // Такой компонент еще не существует
+                        else
+                        {
+                            // Индекс компонента должен быть больше, чем все предыдущие, во избежание перезаписи таблицы
+                            long currentMaxID = componentsUniqueQuery.AsQueryable().Cast<ComponentsUnique>().Max(t => t.Id);
+                            newComponent.Id = currentMaxID + 1;
+
+                            // Присвоение имени нового компонента из textBox
+                            newComponent.Name = textBox.Text;
+                        }
                     }
+
+                    
                 }
             }
             // Выбор уже существующего компонента
